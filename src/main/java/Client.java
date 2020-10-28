@@ -27,7 +27,7 @@ public class Client {
             objectOutputStream.writeObject(task);
             count++;
         }
-        System.out.println("I sended 5 tasks!");
+        System.out.println("I sent 5 tasks!");
 
         objectInputStream.close();
         objectOutputStream.close();
