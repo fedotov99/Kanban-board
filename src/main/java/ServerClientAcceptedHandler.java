@@ -15,7 +15,7 @@ public class ServerClientAcceptedHandler implements Runnable {
 	public void run() {
 
 		try {
-			System.out.println("MonoThreadClientHandler started " + Thread.currentThread().getName());
+			System.out.println("ServerClientAcceptedHandler started " + Thread.currentThread().getName());
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 			objectOutputStream.writeObject(TaskRepository.getTaskList());
 
@@ -31,7 +31,7 @@ public class ServerClientAcceptedHandler implements Runnable {
 			objectInputStream.close();
 			objectOutputStream.close();
 			clientSocket.close();
-			System.out.println("MonoThreadClientHandler ended " + Thread.currentThread().getName());
+			System.out.println("ServerClientAcceptedHandler ended " + Thread.currentThread().getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

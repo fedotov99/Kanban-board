@@ -16,7 +16,6 @@ public class Client {
         List<Task> receivedTaskList = (List<Task>)objectInputStream.readObject();
         System.out.println("Client received tasks: \n");
         receivedTaskList.forEach(task -> System.out.println(task.toString()));
-//        objectInputStream.close();
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 

@@ -25,8 +25,8 @@ public class Server {
     }
 
     static void notifyAllClients(List<Task> taskList) {
-        listClientSockets.forEach(socket -> {
-
-        });
+//        listClientSockets.forEach(socket -> {
+//
+//        });
     }
 }
