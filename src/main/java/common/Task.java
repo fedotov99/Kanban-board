@@ -1,3 +1,5 @@
+package common;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "common.Task{" +
                 "description='" + description + '\'' +
                 ", priority=" + priority +
                 '}';

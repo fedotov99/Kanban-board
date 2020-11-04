@@ -1,3 +1,5 @@
+package common;
+
 public enum RequestType {
     CREATE_TASK,
     UPDATE_TASK,

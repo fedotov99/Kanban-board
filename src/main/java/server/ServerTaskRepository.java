@@ -1,8 +1,12 @@
+package server;
+
+import common.Task;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class TaskRepository {
+public class ServerTaskRepository {
     private static List<Task> taskList = new LinkedList<>();
 
     public static Task addTaskToRepository(Task task) {

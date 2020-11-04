@@ -1,14 +1,18 @@
+package client;
+
+import common.ClientRequest;
+import common.RequestType;
+import common.Task;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.management.ManagementFactory;
 import java.net.Socket;
-import java.util.List;
 
 public class ClientSocketOpenedHandler implements Runnable {
 	private static Socket clientSocket;
 	ObjectOutputStream objectOutputStream;
-	ObjectInputStream objectInputStream;
-	List<Task> localCachedTaskList;
+//	ObjectInputStream objectInputStream;
 
 	public ClientSocketOpenedHandler(Socket client) {
 		ClientSocketOpenedHandler.clientSocket = client;
@@ -16,50 +20,37 @@ public class ClientSocketOpenedHandler implements Runnable {
 
 	private void initializeStreams() throws IOException {
 		objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-		objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+//		objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 	}
 
 	@Override
 	public void run() {
 
 		try {
-			System.out.println("ClientSocketOpenedHandler started " + Thread.currentThread().getName());
+			System.out.println("client.ClientSocketOpenedHandler started " + Thread.currentThread().getName());
 			initializeStreams();
 
-			receiveTaskListFromServer();
-			System.out.println("Client received tasks: \n");
-			printLocalCachedTaskList();
-
 			int count = 0;
-			while (!clientSocket.isClosed() & count != 5) {
+			while (!clientSocket.isClosed()) {
 				Task task = new Task();
-				task.setDescription("My first task");
-				task.setPriority(70);
+				task.setDescription("My task number " + count + " from thread " + ManagementFactory.getRuntimeMXBean().getName());
+				task.setPriority(70 + count);
 				postTaskOnServer(task);
 				count++;
+				Thread.sleep(5000);
+//				if (count == 5) {
+//					System.out.println("I sent 5 tasks to server");
+//					Thread.sleep(5000);
+//					count = 0;
+//				}
 			}
-			System.out.println("I sent 5 tasks to server");
 
-			receiveTaskListFromServer();
-			System.out.println("Client received tasks: \n");
-			printLocalCachedTaskList();
-
-			objectInputStream.close();
 			objectOutputStream.close();
 			clientSocket.close();
-			System.out.println("ClientSocketOpenedHandler ended " + Thread.currentThread().getName());
-		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("client.ClientSocketOpenedHandler ended " + Thread.currentThread().getName());
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void receiveTaskListFromServer() throws IOException, ClassNotFoundException {
-		List<Task> receivedTaskList = (List<Task>)objectInputStream.readObject();
-		localCachedTaskList = receivedTaskList;
-	}
-
-	private void printLocalCachedTaskList() {
-		localCachedTaskList.forEach(task -> System.out.println(task.toString()));
 	}
 
 	private void postTaskOnServer(Task task) throws IOException{
