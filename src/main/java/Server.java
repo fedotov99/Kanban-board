@@ -1,14 +1,13 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
     static ExecutorService executorService = Executors.newFixedThreadPool(2);
-    static List<Socket> listClientSockets = new LinkedList<>();
+
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
@@ -19,7 +18,6 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
             System.out.println("Client accepted " + ++clientNumber);
 
-            listClientSockets.add(clientSocket);
             executorService.execute(new ServerClientAcceptedHandler(clientSocket));
         }
     }

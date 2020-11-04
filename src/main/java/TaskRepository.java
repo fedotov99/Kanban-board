@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class TaskRepository {
     private static List<Task> taskList = new LinkedList<>();
@@ -9,6 +10,31 @@ public class TaskRepository {
         Server.notifyAllClients(taskList);
 
         return task;
+    }
+
+    public static Task patchTaskInRepository(Task task) {
+        Optional<Task> taskFromRep = taskList.stream()
+                .filter(t -> t.getId().equals(t.getId()))
+                .findFirst();
+
+        if (taskFromRep.isPresent()) {
+            taskList.remove(taskFromRep);
+        }
+
+        addTaskToRepository(task);
+        return task;
+    }
+
+    public static Task deleteTaskFromRepository(String taskId) {
+        taskList.stream()
+                .filter(taskFromRep -> taskFromRep.getId().equals(taskId))
+                .findFirst()
+                .map(taskFromRep -> {
+                    taskList.remove(taskFromRep);
+                    Server.notifyAllClients(taskList);
+                    return taskFromRep;
+                });
+        return null;
     }
 
     static {
