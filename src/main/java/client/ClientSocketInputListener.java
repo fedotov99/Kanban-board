@@ -46,6 +46,10 @@ public class ClientSocketInputListener implements Runnable {
 	private void receiveTaskListFromServer() throws IOException, ClassNotFoundException {
 		List<Task> receivedTaskList = (List<Task>)objectInputStream.readObject();
 		ClientLocalCachedTaskRepository.setLocalCachedTaskList(receivedTaskList);
+
+//		Client.board.tasksLabel.setText(receivedTaskList.toString());
+		Client.board.tasksTextArea.setText(receivedTaskList.toString());
+
 	}
 
 	private void printLocalCachedTaskList() {

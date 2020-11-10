@@ -1,5 +1,6 @@
 package client;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -7,8 +8,16 @@ import java.util.concurrent.Executors;
 
 public class Client {
     static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    static Board board = new Board();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
+        JFrame jFrame = new JFrame("Kanban");
+        jFrame.setContentPane(board.panel);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        jFrame.pack();
+        jFrame.setVisible(true);
+
         System.out.println("client.Client started");
         Socket clientSocket = new Socket("127.0.0.1", 8080);
 

@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Task implements Serializable {
-    UUID id;
+    long id;
     String description;
     int priority;
 
     public Task() {
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -37,9 +37,6 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "common.Task{" +
-                "description='" + description + '\'' +
-                ", priority=" + priority +
-                '}';
+        return id + " " + description + " (priority is " + priority + ")\n";
     }
 }

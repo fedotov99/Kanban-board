@@ -69,7 +69,7 @@ public class ServerClientAcceptedHandler implements Runnable {
 				break;
 			}
 			case DELETE_TASK: {
-				String taskId = (String) clientRequest.getData();
+				long taskId = (long) clientRequest.getData();
 				ServerTaskRepository.deleteTaskFromRepository(taskId);
 				break;
 			}

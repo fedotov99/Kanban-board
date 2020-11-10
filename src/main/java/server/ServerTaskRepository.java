@@ -18,7 +18,7 @@ public class ServerTaskRepository {
 
     public static Task patchTaskInRepository(Task task) {
         Optional<Task> taskFromRep = taskList.stream()
-                .filter(t -> t.getId().equals(t.getId()))
+                .filter(t -> t.getId() == t.getId())
                 .findFirst();
 
         if (taskFromRep.isPresent()) {
@@ -29,9 +29,9 @@ public class ServerTaskRepository {
         return task;
     }
 
-    public static Task deleteTaskFromRepository(String taskId) {
+    public static Task deleteTaskFromRepository(long taskId) {
         taskList.stream()
-                .filter(taskFromRep -> taskFromRep.getId().equals(taskId))
+                .filter(taskFromRep -> taskFromRep.getId() == taskId)
                 .findFirst()
                 .map(taskFromRep -> {
                     taskList.remove(taskFromRep);
@@ -43,11 +43,13 @@ public class ServerTaskRepository {
 
     static {
         Task task1 = new Task();
-        task1.setPriority(1);
-        task1.setDescription("1");
+        task1.setId(1);
+        task1.setPriority(10);
+        task1.setDescription("I'm a first task");
         Task task2 = new Task();
-        task2.setPriority(2);
-        task2.setDescription("2");
+        task2.setId(2);
+        task2.setPriority(5);
+        task2.setDescription("I'm a second task");
         taskList.add(task1);
         taskList.add(task2);
     }
