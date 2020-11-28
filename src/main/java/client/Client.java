@@ -1,5 +1,7 @@
 package client;
 
+import common.Task;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
@@ -8,12 +10,14 @@ import java.util.concurrent.Executors;
 
 public class Client {
     static ExecutorService executorService = Executors.newFixedThreadPool(2);
-    static Board board = new Board();
+//    static Board board = new Board();
+    static TaskView taskView = new TaskView();
+    static ViewAllTask viewAllTask = new ViewAllTask();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
         JFrame jFrame = new JFrame("Kanban");
-        jFrame.setContentPane(board.panel);
+        jFrame.setContentPane(viewAllTask.getAllTasksPanel());
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.pack();
         jFrame.setVisible(true);

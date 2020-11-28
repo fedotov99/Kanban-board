@@ -4,6 +4,7 @@ import common.ClientRequest;
 import common.RequestType;
 import common.Task;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,10 +47,14 @@ public class ClientSocketInputListener implements Runnable {
 	private void receiveTaskListFromServer() throws IOException, ClassNotFoundException {
 		List<Task> receivedTaskList = (List<Task>)objectInputStream.readObject();
 		ClientLocalCachedTaskRepository.setLocalCachedTaskList(receivedTaskList);
-
-//		Client.board.tasksLabel.setText(receivedTaskList.toString());
-		Client.board.tasksTextArea.setText(receivedTaskList.toString());
-
+		JPanel allTasksPanel = Client.viewAllTask.getAllTasksPanel();
+		receivedTaskList.forEach(task -> {
+			TaskView taskView = new TaskView();
+			taskView.addTaskToView(task);
+			allTasksPanel.add(taskView.getTaskPanel());
+		});
+		Client.viewAllTask.setAllTasksPanel(allTasksPanel);
+				//getAllTasksPanel().add(taskView.getTaskPanel());
 	}
 
 	private void printLocalCachedTaskList() {
