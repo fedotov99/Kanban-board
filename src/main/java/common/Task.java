@@ -4,18 +4,20 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Task implements Serializable {
-    long id;
+    UUID id;
     String description;
     int priority;
+    boolean isLocked = false;
 
     public Task() {
+        this.id = UUID.randomUUID();
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -33,6 +35,14 @@ public class Task implements Serializable {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 
     @Override

@@ -30,7 +30,6 @@ public class Server {
         }
     }
 
-    // TODO: think about transaction (lock repository)
     static void notifyAllClients(List<Task> taskList) {
         handlerList.forEach(handler -> {
             try {

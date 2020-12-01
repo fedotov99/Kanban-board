@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.UUID;
 
 public class ServerClientAcceptedHandler implements Runnable {
 
@@ -54,13 +55,12 @@ public class ServerClientAcceptedHandler implements Runnable {
 		objectOutputStream.writeObject(taskListFromRepository);
 	}
 
-	// TODO: think about ServerResponse
 	private void handleClientRequest() throws IOException, ClassNotFoundException {
 		ClientRequest clientRequest = (ClientRequest) objectInputStream.readObject();
 		switch (clientRequest.getRequestType()) {
 			case CREATE_TASK: {
 				Task receivedTask = (Task) clientRequest.getData();
-				ServerTaskRepository.addTaskToRepository(receivedTask);
+				ServerTaskRepository.addTaskToRepository(receivedTask, null);
 				break;
 			}
 			case UPDATE_TASK: {
@@ -69,7 +69,7 @@ public class ServerClientAcceptedHandler implements Runnable {
 				break;
 			}
 			case DELETE_TASK: {
-				long taskId = (long) clientRequest.getData();
+				UUID taskId = (UUID) clientRequest.getData();
 				ServerTaskRepository.deleteTaskFromRepository(taskId);
 				break;
 			}

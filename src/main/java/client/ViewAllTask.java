@@ -2,10 +2,40 @@ package client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ViewAllTask {
     public JPanel allTasksPanel;
     public JScrollPane jScrollPane;
+    JButton createButton = new JButton("Create new task");
+
+    public ViewAllTask() {
+        allTasksPanel.setLayout(new GridLayout(0, 1));
+        allTasksPanel.setMaximumSize(new Dimension(400, 700));
+        jScrollPane = new JScrollPane(allTasksPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane.setMinimumSize(new Dimension(200, 700));
+
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (Client.createTaskView == null) {
+                    CreateTaskView createTaskView = new CreateTaskView();
+                    Client.createTaskView = createTaskView;
+                    Client.jFrame.getContentPane().add(createTaskView.getCreatePanel());
+                    Client.jFrame.revalidate();
+                } else {
+                    Client.createTaskView.display();
+                }
+            }
+        });
+    }
+
+    public void addCreateButton() {
+        createButton.setMaximumSize(new Dimension(200, 40));
+        createButton.setMargin(new Insets(-100, -50, -100, -50));
+        allTasksPanel.add(createButton);
+    }
 
     public JPanel getAllTasksPanel() {
         return allTasksPanel;
@@ -13,6 +43,10 @@ public class ViewAllTask {
 
     public void setAllTasksPanel(JPanel allTasksPanel) {
         this.allTasksPanel = allTasksPanel;
+    }
+
+    public JScrollPane getjScrollPane() {
+        return jScrollPane;
     }
 
     {
@@ -31,15 +65,17 @@ public class ViewAllTask {
      */
     private void $$$setupUI$$$() {
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         jScrollPane = new JScrollPane();
         panel1.add(jScrollPane, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        allTasksPanel = new JPanel();
-        allTasksPanel.setLayout(new GridBagLayout());
-        jScrollPane.setViewportView(allTasksPanel);
+        jScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-65536)), null));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
         panel1.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        panel1.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel1.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        allTasksPanel = new JPanel();
+        allTasksPanel.setLayout(new GridBagLayout());
+        panel1.add(allTasksPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        allTasksPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
     }
 }

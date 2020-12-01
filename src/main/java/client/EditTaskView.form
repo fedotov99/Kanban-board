@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="client.EditTaskView">
+  <grid id="27dc6" binding="editPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="56" y="30" width="301" height="411"/>
+    </constraints>
+    <properties/>
+    <border type="line">
+      <color color="-16777216"/>
+    </border>
+    <children/>
+  </grid>
+</form>

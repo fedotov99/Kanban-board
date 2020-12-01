@@ -5,6 +5,7 @@ import common.RequestType;
 import common.Task;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,13 +49,14 @@ public class ClientSocketInputListener implements Runnable {
 		List<Task> receivedTaskList = (List<Task>)objectInputStream.readObject();
 		ClientLocalCachedTaskRepository.setLocalCachedTaskList(receivedTaskList);
 		JPanel allTasksPanel = Client.viewAllTask.getAllTasksPanel();
+		allTasksPanel.removeAll();
+		Client.viewAllTask.addCreateButton();
 		receivedTaskList.forEach(task -> {
 			TaskView taskView = new TaskView();
 			taskView.addTaskToView(task);
 			allTasksPanel.add(taskView.getTaskPanel());
 		});
-		Client.viewAllTask.setAllTasksPanel(allTasksPanel);
-				//getAllTasksPanel().add(taskView.getTaskPanel());
+		Client.jFrame.revalidate();
 	}
 
 	private void printLocalCachedTaskList() {

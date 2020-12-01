@@ -4,6 +4,9 @@ import common.Task;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class TaskView {
     private JPanel taskPanel;
@@ -11,10 +14,39 @@ public class TaskView {
     private JLabel descriptionLabel;
     private JLabel pl;
     private JLabel priorityLabel;
+    private JButton editButton;
+    private Task task;
+
+    public TaskView() {
+        taskPanel.setMinimumSize(new Dimension(200, 300));
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                task.setLocked(true);
+                try {
+                    ClientSocketOpenedHandler.patchTaskOnServer(task);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Client.editTaskView == null) {
+                    EditTaskView editTaskView = new EditTaskView(task);
+                    Client.editTaskView = editTaskView;
+                    Client.jFrame.getContentPane().add(editTaskView.getEditPanel());
+                    Client.jFrame.revalidate();
+                } else {
+                    Client.editTaskView.getEditPanel().setVisible(true);
+                    Client.editTaskView.displayTask(task);
+                }
+            }
+        });
+    }
 
     public void addTaskToView(Task task) {
         descriptionLabel.setText(task.getDescription());
         priorityLabel.setText(Integer.toString(task.getPriority()));
+        this.task = task;
+        if (task.isLocked())
+            editButton.setVisible(false);
     }
 
     public JPanel getTaskPanel() {
@@ -73,9 +105,8 @@ public class TaskView {
      */
     private void $$$setupUI$$$() {
         taskPanel = new JPanel();
-        taskPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
-        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        taskPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        taskPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        taskPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         dl = new JLabel();
         dl.setText("Description:");
         taskPanel.add(dl, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -88,6 +119,9 @@ public class TaskView {
         priorityLabel = new JLabel();
         priorityLabel.setText("Label");
         taskPanel.add(priorityLabel, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        editButton = new JButton();
+        editButton.setText("Edit");
+        taskPanel.add(editButton, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -96,4 +130,5 @@ public class TaskView {
     public JComponent $$$getRootComponent$$$() {
         return taskPanel;
     }
+
 }
